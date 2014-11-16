@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   <title>Recipe Tracker</title>
+  <link href='http://fonts.googleapis.com/css?family=Karla:400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <script type="text/x-handlebars">
+  <section>
     <h1>Recipe Tracker</h1>
 
     {{outlet}}
+  </section>
   </script>
 
   <script type="text/x-handlebars" id="index">
+  <section>
     <div>
     {{#each recipe in model}}
       <h2>{{link-to recipe.name 'recipe' recipe.id}}</h2>
@@ -22,10 +26,14 @@
       <p>{{recipe.directions}}</p>
     {{/each}}
     </div>
+  </section>
   </script>
 
   <script type="text/x-handlebars" id="recipe">
-    <h2>{{link-to 'edit' 'edit_recipe' model.id}}</h2>
+  <section>
+    {{model}}
+    <h2>{{link-to 'edit' 'edit_recipe' id}}</h2>
+  </section>
   </script>
 
   <script src="js/libs/jquery-1.10.2.js"></script>

@@ -21,16 +21,12 @@ App.IndexRoute = Ember.Route.extend({
 
 App.RecipeRoute = Ember.Route.extend({
   model: function(params) {
-    return RECIPES.find(function(recipe){
-      return recipe.id === params.id;
-    });
+    return RECIPES.findBy('id', Number(params.id));
   }
 });
 
 App.EditRecipeRoute = Ember.Route.extend({
   model: function(params) {
-    return RECIPES.find(function(recipe){
-      return recipe.id === params.id;
-    });
+    return RECIPES.findBy('id', Number(params.id));
   }
 });
