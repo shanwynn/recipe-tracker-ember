@@ -7,8 +7,8 @@ App.Router.map(function() {
 
 var RECIPES = [{
   id: 1,
-  name: 'name',
-  imageURL: 'imgURL',
+  name: 'Bacon',
+  imageURL: 'http://img2.wikia.nocookie.net/__cb20110624171559/bacon/images/5/5f/Crispy_bacon_1-1-.jpg',
   ingredients: ['bacon'],
   directions: ['Cook it']
 }];

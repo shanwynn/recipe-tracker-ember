@@ -17,10 +17,18 @@ h2 {
 }
 
 p {
-    text-align: center;
     margin-left: 10px;
     margin-right: 10px;
   }
+
+a:hover {
+  text-decoration: none;
+  color: #797979;
+}
+
+a {
+  color: #6E0010;
+}
 
 section {
   margin: 20px auto 0 auto;

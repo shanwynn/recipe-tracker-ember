@@ -21,8 +21,10 @@
     <div>
     {{#each recipe in model}}
       <h2>{{link-to recipe.name 'recipe' recipe.id}}</h2>
-      <p>{{recipe.imageURL}}</p>
-      <p>{{recipe.ingredients}}</p>
+      <img {{bind-attr src='imgURL'}}/>
+      <ul>
+      <li>{{recipe.ingredients}}</li>
+      </ul>
       <p>{{recipe.directions}}</p>
     {{/each}}
     </div>
