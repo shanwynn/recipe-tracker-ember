@@ -3,6 +3,7 @@ App = Ember.Application.create();
 App.Router.map(function() {
   this.route ('recipe', {path: 'recipes/:id'});
   this.route ('edit_recipe', {path: 'recipes/:id/edit'});
+  this.route ('add_recipe', {path: 'recipes/add'});
 });
 
 var RECIPES = [{
@@ -28,5 +29,17 @@ App.RecipeRoute = Ember.Route.extend({
 App.EditRecipeRoute = Ember.Route.extend({
   model: function(params) {
     return RECIPES.findBy('id', Number(params.id));
+  }
+});
+
+App.AddRecipeRoute = Ember.Route.extend({
+  model: function() {
+    return RECIPES;
+  }
+});
+
+App.IndexController = Ember.Controller.extend({
+  submitAction: function() {
+
   }
 });

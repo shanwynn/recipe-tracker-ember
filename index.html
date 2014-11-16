@@ -21,14 +21,19 @@
     <div>
     {{#each recipe in model}}
       <h2>{{link-to recipe.name 'recipe' recipe.id}}</h2>
-      <img {{bind-attr src='imgURL'}}/>
+      <img src = 'http://img2.wikia.nocookie.net/__cb20110624171559/bacon/images/5/5f/Crispy_bacon_1-1-.jpg' class='centered'/>
+ <!-- <img {{bind-attr src='imageURL'}}/> -->
+    <span>Ingredients:</span>
       <ul>
       <li>{{recipe.ingredients}}</li>
       </ul>
+    <span>Directions:</span>
       <p>{{recipe.directions}}</p>
     {{/each}}
     </div>
   </section>
+
+    <h3>{{link-to '+ add recipe' 'add_recipe'}}</h3>
   </script>
 
   <script type="text/x-handlebars" id="recipe">
@@ -37,7 +42,19 @@
     <h2>{{link-to 'edit' 'edit_recipe' id}}</h2>
   </section>
   </script>
-
+  <script type="text/x-handlebars" id="add_recipe">
+    {{#each}}
+    <div class =add-form>Name:</div>
+    <div class>{{input value= ""}}</div>
+    <div class =add-form>Ingredients:</div>
+    <div>{{input value= ""}}</div>
+    <div class =add-form>Directions:</div>
+    <div>{{input value= ""}}</div>
+    <div class =add-form>Image:</div>
+    <div>{{input value= ""}}</div>
+    <button {{action submitAction target="controller"}}>Submit</button>
+    {{/each}}
+  </script>
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-v1.3.0.js"></script>
   <script src="js/libs/ember-1.8.1.js"></script>
