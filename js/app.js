@@ -1,10 +1,21 @@
 App = Ember.Application.create();
 
+Recipes.ApplicationAdapter = DS.LSAdapter.extend({
+  namespace: 'recipes-emberjs'
+});
+
 App.Router.map(function() {
   this.route ('recipe', {path: 'recipes/:id'});
   this.route ('edit_recipe', {path: 'recipes/:id/edit'});
   this.route ('add_recipe', {path: 'recipes/add'});
   this.route ('delete_recipe', {path: 'recipes/:id/delete'})
+});
+
+Recipes.Recipe = DS.Model.extend({
+  name: DS.attr('string'),
+  imageURL: DS.attr('img'),
+  ingredients: DS.attr('string'),
+  directions: DS.attr('string')
 });
 
 var RECIPES = [{
