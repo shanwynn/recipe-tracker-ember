@@ -39,7 +39,8 @@
   <script type="text/x-handlebars" id="recipe">
   <section>
     {{model}}
-    <h2>{{link-to 'edit' 'edit_recipe' id}}</h2>
+    <h2 class="edit">{{link-to 'edit' 'edit_recipe' id}}</h2>
+    <h2 class="edit">{{link-to 'delete' 'delete_recipe' id}}</h2>
   </section>
   </script>
   <script type="text/x-handlebars" id="add_recipe">
