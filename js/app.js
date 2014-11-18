@@ -2,8 +2,8 @@ App = Ember.Application.create({
   LOG_TRANSITIONS: true
 });
 
-App.ApplicationAdapter = DS.LSAdapter.extend({
-  namespace: 'recipes-emberjs'
+App.ApplicationAdapter = DS.FirebaseAdapter.extend({
+	firebase: new Firebase('https://dazzling-torch-1926.firebaseio.com')
 });
 
 App.Router.map(function() {
