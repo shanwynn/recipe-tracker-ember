@@ -1,63 +1,80 @@
-App = Ember.Application.create();
+App = Ember.Application.create({
+  LOG_TRANSITIONS: true
+});
 
-Recipes.ApplicationAdapter = DS.LSAdapter.extend({
+App.ApplicationAdapter = DS.LSAdapter.extend({
   namespace: 'recipes-emberjs'
 });
 
 App.Router.map(function() {
   this.route ('recipe', {path: 'recipes/:id'});
   this.route ('edit_recipe', {path: 'recipes/:id/edit'});
-  this.route ('add_recipe', {path: 'recipes/add'});
-  this.route ('delete_recipe', {path: 'recipes/:id/delete'})
+  this.route ('new_recipe', {path: 'recipes/new'});
 });
 
-Recipes.Recipe = DS.Model.extend({
-  name: DS.attr('string'),
-  imageURL: DS.attr('img'),
+App.Recipe = DS.Model.extend({
+  name:        DS.attr('string'),
+  imageURL:    DS.attr('string'),
   ingredients: DS.attr('string'),
-  directions: DS.attr('string')
+  directions:  DS.attr('string')
 });
-
-var RECIPES = [{
-  id: 1,
-  name: 'Bacon',
-  imageURL: 'http://img2.wikia.nocookie.net/__cb20110624171559/bacon/images/5/5f/Crispy_bacon_1-1-.jpg',
-  ingredients: ['bacon'],
-  directions: ['Cook it']
-}];
 
 App.IndexRoute = Ember.Route.extend({
   model: function() {
-    return RECIPES;
+    return this.store.find('recipe');
   }
 });
 
 App.RecipeRoute = Ember.Route.extend({
   model: function(params) {
-    return RECIPES.findBy('id', Number(params.id));
+    return this.store.find('recipe', params.id);
   }
 });
 
 App.EditRecipeRoute = Ember.Route.extend({
   model: function(params) {
-    return RECIPES.findBy('id', Number(params.id));
+    return this.store.find('recipe', params.id);
   }
 });
 
-App.DeleteRecipeRoute = Ember.Route.extend({
-  model: function(params) {
-    return RECIPES.findBy('id', Number(params.id));
+App.EditRecipeController = Ember.ObjectController.extend({
+  actions: {
+    update: function () {
+      this.model.save();
+      this.transitionToRoute('recipe', this.get('id'));
+    }
   }
 });
 
-App.AddRecipeRoute = Ember.Route.extend({
-  model: function() {
-    return RECIPES;
+App.RecipeController = Ember.ObjectController.extend({
+  splitDirections: function () {
+    return this.get('directions').split(',');
+  }.property('directions'),
+
+  splitIngredients: function () {
+    return this.get('ingredients').split(',');
+  }.property('ingredients'),
+
+  actions: {
+    destroy: function () {
+      this.get('model').deleteRecord();
+      this.get('model').save();
+      this.transitionToRoute('index');
+    }
   }
 });
 
-App.IndexController = Ember.Controller.extend({
-  submitAction: function() {
-
+App.NewRecipeController = Ember.ArrayController.extend({
+  actions: {
+    save: function() {
+      var recipe = this.store.createRecord('recipe', {
+        name:        this.get('name'),
+        imageURL:    this.get('imageURL'),
+        ingredients: this.get('ingredients'),
+        directions:  this.get('directions')
+      });
+      recipe.save();
+      this.transitionToRoute('index');
+    }
   }
 });

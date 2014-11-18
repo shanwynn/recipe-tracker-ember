@@ -9,56 +9,103 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-  <section>
-    <h1>Recipe Tracker</h1>
-
+  <h1 class="title">Recipe Tracker</h1>
+    <p class="nav"> {{link-to "home"     "index"}}</p>
+    <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
     {{outlet}}
-  </section>
   </script>
 
   <script type="text/x-handlebars" id="index">
-  <section>
-    <div>
-    {{#each recipe in model}}
-      <h2>{{link-to recipe.name 'recipe' recipe.id}}</h2>
-      <img src = 'http://img2.wikia.nocookie.net/__cb20110624171559/bacon/images/5/5f/Crispy_bacon_1-1-.jpg' class='centered'/>
- <!-- <img {{bind-attr src='imageURL'}}/> -->
-    <span>Ingredients:</span>
-      <ul>
-      <li>{{recipe.ingredients}}</li>
-      </ul>
-    <span>Directions:</span>
-      <p>{{recipe.directions}}</p>
+  <ul>
+    {{#each}}
+    <li>
+      <article>
+        <header>
+          {{#link-to 'recipe' this tagName='h2'}} {{name}} {{/link-to}}
+        </header>
+      </article>
+    </li>
     {{/each}}
-    </div>
-  </section>
-
-    <h3>{{link-to '+ add recipe' 'add_recipe'}}</h3>
+  </ul>
   </script>
 
   <script type="text/x-handlebars" id="recipe">
-  <section>
-    {{model}}
-    <h2 class="edit">{{link-to 'edit' 'edit_recipe' id}}</h2>
-    <h2 class="edit">{{link-to 'delete' 'delete_recipe' id}}</h2>
-  </section>
+  <article>
+  <h3>{{link-to 'edit' 'edit_recipe' this class='edit-link'}}</h3>
+    <header>
+      <h2>{{name}}</h2>
+    </header>
+    <section>
+    <img {{bind-attr src=imageURL}} class='centered' />
+      <h4 class="add-form">Ingredients:</h4>
+      <ul>
+        {{#each ingredient in splitIngredients}}
+        <li>{{ingredient}}</li>
+        {{/each}}
+      </ul>
+      <h4 class="add-form">Directions:</h4>
+      <ul>
+        {{#each direction in splitDirections}}
+        <li>{{direction}}</li>
+        {{/each}}
+      </ul>
+    </section>
+    <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
+  </article>
   </script>
-  <script type="text/x-handlebars" id="add_recipe">
-    {{#each}}
-    <div class =add-form>Name:</div>
-    <div class>{{input value= ""}}</div>
-    <div class =add-form>Ingredients:</div>
-    <div>{{input value= ""}}</div>
-    <div class =add-form>Directions:</div>
-    <div>{{input value= ""}}</div>
-    <div class =add-form>Image:</div>
-    <div>{{input value= ""}}</div>
-    <button {{action submitAction target="controller"}}>Submit</button>
-    {{/each}}
+
+  <script type="text/x-handlebars" id="new_recipe">
+  <article>
+  <form role="form">
+     <div class="form-group">
+       <label for='name'>Name:</label>
+       {{input type='text' value=name id='name' class='form-control'}}
+     </div>
+     <div class="form-group">
+       <label for='imageURL'>Image (URL):</label>
+       {{input type='text' value=imageURL id='imageURL' class='form-control'}}
+     </div>
+    <div class="form-group">
+      <label for='ingredients'>Ingredients:</label>
+       {{input type='text' value=ingredients id='ingredients' class='form-control'}}
+    </div>
+    <div class ="form-group">
+    <label for='directions'>Directions:</label>
+       {{input type='text' value=directions id='directions' class='form-control'}}
+    </div>
+  <button {{action "save"}} class='btn btn-primary'>Submit New Recipe</button>
+  </form>
+  </article>
   </script>
+
+  <script type="text/x-handlebars" id="edit_recipe">
+  <article>
+  <form role="form">
+    <div class="form-group">
+       <label for='name'>Name:</label>
+       {{input type='text' value=name id='name' class='form-control'}}
+    </div>
+    <div class ="form-group">
+       <label for='imageURL'>Image (URL):</label>
+       {{input type='text' value=imageURL id='imageURL' class='form-control'}}
+    </div>
+    <div class ="form-group">
+      <label for='ingredients'>Ingredients:</label>
+      {{input type='text' value=ingredients id='ingredients' class='form-control'}}
+    </div>
+    <div class ="form-group">
+    <label for='directions'>Directions:</label>
+      {{input type='text' value=directions id='directions' class='form-control'}}
+    </div>
+  <button {{action "update"}} class='btn btn-primary'>Update Recipe</button>
+  </form>
+  </article>
+  </script>
+
   <script src="js/libs/jquery-1.10.2.js"></script>
   <script src="js/libs/handlebars-v1.3.0.js"></script>
   <script src="js/libs/ember-1.8.1.js"></script>
+  <script src="js/libs/ember-data.js"></script>
   <script src="js/libs/localstorage_adapter.js"></script>
   <script src="js/app.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
