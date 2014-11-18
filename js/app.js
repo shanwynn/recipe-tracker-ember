@@ -25,24 +25,24 @@ App.IndexRoute = Ember.Route.extend({
   }
 });
 
+App.NewRecipeController = Ember.ArrayController.extend({
+  actions: {
+    save: function() {
+      var recipe = this.store.createRecord('recipe', {
+        name:        this.get('name'),
+        imageURL:    this.get('imageURL'),
+        ingredients: this.get('ingredients'),
+        directions:  this.get('directions')
+      });
+      recipe.save();
+      this.transitionToRoute('index');
+    }
+  }
+});
+
 App.RecipeRoute = Ember.Route.extend({
   model: function(params) {
     return this.store.find('recipe', params.id);
-  }
-});
-
-App.EditRecipeRoute = Ember.Route.extend({
-  model: function(params) {
-    return this.store.find('recipe', params.id);
-  }
-});
-
-App.EditRecipeController = Ember.ObjectController.extend({
-  actions: {
-    update: function () {
-      this.model.save();
-      this.transitionToRoute('recipe', this.get('id'));
-    }
   }
 });
 
@@ -64,17 +64,17 @@ App.RecipeController = Ember.ObjectController.extend({
   }
 });
 
-App.NewRecipeController = Ember.ArrayController.extend({
+App.EditRecipeRoute = Ember.Route.extend({
+  model: function(params) {
+    return this.store.find('recipe', params.id);
+  }
+});
+
+App.EditRecipeController = Ember.ObjectController.extend({
   actions: {
-    save: function() {
-      var recipe = this.store.createRecord('recipe', {
-        name:        this.get('name'),
-        imageURL:    this.get('imageURL'),
-        ingredients: this.get('ingredients'),
-        directions:  this.get('directions')
-      });
-      recipe.save();
-      this.transitionToRoute('index');
+    update: function () {
+      this.model.save();
+      this.transitionToRoute('recipe', this.get('id'));
     }
   }
 });
