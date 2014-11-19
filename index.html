@@ -12,7 +12,10 @@
   <h1 class="title">Recipe Tracker</h1>
     <p class="nav"> {{link-to "home"     "index"}}</p>
     <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
+    <p class="nav"> {{link-to 'Ingredients' 'ingredients'}}</p>
+
     {{outlet}}
+
   </script>
 
   <script type="text/x-handlebars" id="index">
@@ -34,25 +37,104 @@
   <h3>{{link-to 'edit' 'edit_recipe' this class='edit-link' classNames='btn btn-primary'}}</h3>
     <header>
       <h2>{{name}}</h2>
+      <h4>{{categoryName}}</h4>
+          {{category}}
     </header>
     <section>
-    <img {{bind-attr src=imageURL}} class='centered' />
-      <h4 class="add-form">Ingredients:</h4>
+      <img {{bind-attr src=imageURL}} class='centered' />
+      <p>{{{markedDescription}}}</p>
+      <h4 class="add-form"{{action 'toggleIngredients' on 'click'}}>
+        {{ingredientCount}} Ingredients:<i {{bind-attr class=':glyphicon showItems:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
+      </h4>
+      {{#if showIngredients}}
       <ul>
         {{#each ingredient in splitIngredients}}
         <li>{{ingredient}}</li>
         {{/each}}
       </ul>
-      <h4 class="add-form">Directions:</h4>
+      {{/if}}
+      <h4 class="add-form" {{action 'toggleDirections' on 'click'}}>
+        {{directionCount}} Directions:<i {{bind-attr class=':glyphicon showSteps:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
+      </h4>
+      {{#if showDirections}}
       <ul>
         {{#each direction in splitDirections}}
         <li>{{direction}}</li>
         {{/each}}
       </ul>
+      {{/if}}
     </section>
     <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
   </article>
   </script>
+
+  <script type="text/x-handlebars" id="ingredient">
+    <h2>{{item}}</h2>
+    <img {{bind-attr src=imageURL}} />
+    {{description}}
+    <button {{action 'destroy'}} class='btn btn-danger'>Delete Ingredient</button>
+  </script>
+
+  <script type="text/x-handlebars" id="ingredients">
+  {{link-to "New Ingredient" "new_ingredient"}}
+  <ul>
+    {{#each}}
+    <li>
+      <article>
+        <header>
+          {{#link-to 'ingredient' this tagName='h2'}}{{item}}
+          <img {{bind-attr src=imageURL}} />
+          <{{/link-to}}
+        </header>
+        <section>
+          <p>{{description}}</p>
+        </section>
+      </article>
+    </li>
+    {{/each}}
+  </ul>
+  </script>
+
+  <script type="text/x-handlebars" id="new_ingredient">
+    <form role="form">
+      <div class="form-group">
+        <label for='item'>Item</label>
+        {{input type='text' value=item id='item' class='form-control'}}
+      </div>
+      <div class="form-group">
+        <label for='description'>description</label>
+        {{input type='text' value=description id='description' class='form-control'}}
+      </div>
+      <div class="form-group">
+        <label for='imageURL'>imageURL</label>
+        {{input type='text' value=imageURL id='imageURL' class='form-control'}}
+      </div>
+      <button {{action 'save'}}class='btn btn-primary'>Create New Ingredient</button>
+    </form>
+  </script>
+
+  <script type="text/x-handlebars" id="category">
+    {{link-to 'Clear Filter' 'category' (query-params category='all')}}
+    {{#each App.CATEGORIES}}
+      {{#link-to 'category' (query-params category=id)}} Sort by {{item}} {{/link-to}}
+    {{/each}}
+    {{#if filtered.Recipes.length}}
+      <h2>{{filteredRecipes.length}} Recipe{{#if moreThanOne}}s{{/if}} Found</h2>
+    {{else}}
+      <h2>Sorry, No Recipes Found</h2>
+    {{/if}}
+    <ul>
+      {{#each filteredRecipes}}
+      <li>
+        <article>
+          <header>
+            {{#link-to 'recipe' this tagName='h2'}} {{name}} {{/link-to}}
+          </header>
+        </article>
+      </li>
+      {{/each}}
+    </ul>
+    </script>
 
   <script type="text/x-handlebars" id="new_recipe">
   <article>
@@ -60,6 +142,14 @@
      <div class="form-group">
        <label for='name'>Name:</label>
        {{input type='text' value=name id='name' class='form-control'}}
+     </div>
+     <div class="form-group">
+        <label for='description'>Description</label>
+        {{input type='text' value=description id='description' class='form-control'}}
+     </div>
+     <div class="form-group">
+        <label for='category'>Category</label>
+        {{view "select" value=category content=App.CATEGORIES optionValuePath="content.id" optionLabelPath="content.name" classNames='form-control'}}
      </div>
      <div class="form-group">
        <label for='imageURL'>Image (URL):</label>
@@ -85,6 +175,14 @@
        <label for='name'>Name:</label>
        {{input type='text' value=name id='name' class='form-control'}}
     </div>
+    <div class="form-group">
+        <label for='description'>Description</label>
+        {{input type='text' value=description id='description' class='form-control'}}
+    </div>
+    <div class="form-group">
+        <label for='category'>Category</label>
+        {{input type='text' value=category id='category' class='form-control'}}
+    </div>
     <div class ="form-group">
        <label for='imageURL'>Image (URL):</label>
        {{input type='text' value=imageURL id='imageURL' class='form-control'}}
@@ -106,6 +204,7 @@
   <script src="js/libs/handlebars-v1.3.0.js"></script>
   <script src="js/libs/ember-1.8.1.js"></script>
   <script src="js/libs/ember-data.js"></script>
+  <script src="js/libs/marked.js"></script>
   <script src="https://cdn.firebase.com/js/client/2.0.4/firebase.js"></script>
 <!-- EmberFire -->
   <script src="https://cdn.firebase.com/libs/emberfire/1.3.1/emberfire.min.js"></script>
