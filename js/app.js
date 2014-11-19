@@ -76,7 +76,7 @@ App.RecipeController = Ember.ObjectController.extend({
   }.property('ingredients'),
 
   markedDescription: function () {
-    return marked(this.get('description'));
+    return marked(this.get('description') || '');
   }.property('description'),
 
   categoryName: function () {
@@ -110,7 +110,7 @@ App.EditRecipeRoute = Ember.Route.extend({
 
 App.EditRecipeController = Ember.ObjectController.extend({
   markedDescription: function () {
-    return marked(this.get('description'));
+    return marked(this.get('description') || '');
   }.property('description'),
 
   actions: {
@@ -174,7 +174,7 @@ App.IngredientController = Ember.ObjectController.extend({
     }
   }
 });
-
+/*
 App.NewIngredientController = Ember.Controller.extend({
   actions: {
     save: function () {
@@ -188,7 +188,7 @@ App.NewIngredientController = Ember.Controller.extend({
     }
   }
 });
-
+*/
 App.NewRecipeIndexRoute = App.Route.extend({
     model: function () {
         return this.store.find('ingredient');

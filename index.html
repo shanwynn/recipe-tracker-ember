@@ -12,7 +12,6 @@
   <h1 class="title">Recipe Tracker</h1>
     <p class="nav"> {{link-to "home"     "index"}}</p>
     <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
-    <p class="nav"> {{link-to 'Ingredients' 'ingredients'}}</p>
 
     {{outlet}}
 
@@ -67,7 +66,7 @@
     <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
   </article>
   </script>
-
+<!--
   <script type="text/x-handlebars" id="ingredient">
     <h2>{{item}}</h2>
     <img {{bind-attr src=imageURL}} />
@@ -112,7 +111,7 @@
       <button {{action 'save'}}class='btn btn-primary'>Create New Ingredient</button>
     </form>
   </script>
-
+-->
   <script type="text/x-handlebars" id="category">
     {{link-to 'Clear Filter' 'category' (query-params category='all')}}
     {{#each App.CATEGORIES}}
