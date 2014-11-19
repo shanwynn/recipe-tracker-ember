@@ -36,12 +36,11 @@
   <h3>{{link-to 'edit' 'edit_recipe' this class='edit-link' classNames='btn btn-primary'}}</h3>
     <header>
       <h2>{{name}}</h2>
-      <h4>{{categoryName}}</h4>
-          {{category}}
+      <h4 class='category'>{{categoryName}}</h4>
     </header>
     <section>
       <img {{bind-attr src=imageURL}} class='centered' />
-      <p>{{{markedDescription}}}</p>
+      <p class='description'>{{{markedDescription}}}</p>
       <h4 class="add-form"{{action 'toggleIngredients' on 'click'}}>
         {{ingredientCount}} Ingredients: <i {{bind-attr class=':glyphicon showIngredients:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
       </h4>
@@ -66,54 +65,9 @@
     <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
   </article>
   </script>
-<!--
-  <script type="text/x-handlebars" id="ingredient">
-    <h2>{{item}}</h2>
-    <img {{bind-attr src=imageURL}} />
-    {{description}}
-    <button {{action 'destroy'}} class='btn btn-danger'>Delete Ingredient</button>
-  </script>
 
-  <script type="text/x-handlebars" id="ingredients">
-  {{link-to "New Ingredient" "new_ingredient"}}
-  <ul>
-    {{#each}}
-    <li>
-      <article>
-        <header>
-          {{#link-to 'ingredient' this tagName='h2'}}{{item}}
-          <img {{bind-attr src=imageURL}} />
-          <{{/link-to}}
-        </header>
-        <section>
-          <p>{{description}}</p>
-        </section>
-      </article>
-    </li>
-    {{/each}}
-  </ul>
-  </script>
-
-  <script type="text/x-handlebars" id="new_ingredient">
-    <form role="form">
-      <div class="form-group">
-        <label for='item'>Item</label>
-        {{input type='text' value=item id='item' class='form-control'}}
-      </div>
-      <div class="form-group">
-        <label for='description'>description</label>
-        {{input type='text' value=description id='description' class='form-control'}}
-      </div>
-      <div class="form-group">
-        <label for='imageURL'>imageURL</label>
-        {{input type='text' value=imageURL id='imageURL' class='form-control'}}
-      </div>
-      <button {{action 'save'}}class='btn btn-primary'>Create New Ingredient</button>
-    </form>
-  </script>
--->
   <script type="text/x-handlebars" id="category">
-    {{link-to 'Clear Filter' 'category' (query-params category='all')}}
+    {{#link-to 'Clear Filter' 'category' (query-params category='all')}}{{/link-to}}
     {{#each App.CATEGORIES}}
       {{#link-to 'category' (query-params category=id)}} Sort by {{item}} {{/link-to}}
     {{/each}}
@@ -180,7 +134,7 @@
     </div>
     <div class="form-group">
         <label for='category'>Category</label>
-        {{input type='text' value=category id='category' class='form-control'}}
+        {{view "select" value=category content=App.CATEGORIES optionValuePath="content.id" optionLabelPath="content.name" classNames='form-control'}}
     </div>
     <div class ="form-group">
        <label for='imageURL'>Image (URL):</label>

@@ -17,9 +17,6 @@ App.Router.map(function() {
   this.route ('recipe', {path: 'recipes/:id'});
   this.route ('edit_recipe', {path: 'recipes/:id/edit'});
   this.route ('new_recipe', {path: 'recipes/new'});
-  this.route ('ingredients', {path: 'ingredients'});
-  this.route ('ingredient', {path: 'ingredients/:id'});
-  this.route ('new_ingredient', {path: 'ingredients/new'});
   this.route ('category', {path: 'recipes'});
 });
 
@@ -147,49 +144,6 @@ App.CategoryController = Ember.ArrayController.extend({
   }.property('category', 'model')
 });
 
-/*
-App.Ingredient = DS.Model.extend({
-  item:        DS.attr('string'),
-  description: DS.attr('string'),
-  imageURL:    DS.attr('string'),
-});
-
-App.IngredientRoute = Ember.Route.extend({
-  model: function (params) {
-    return this.store.find('ingredient', params.id);
-  }
-});
-
-App.IngredientsRoute = Ember.Route.extend({
-  model: function () {
-    return this.store.find('ingredient');
-  }
-});
-
-App.IngredientController = Ember.ObjectController.extend({
-  actions: {
-    destroy: function () {
-      this.get('model').deleteRecord();
-      this.get('model').save();
-      this.transitionToRoute('index');
-    }
-  }
-});
-
-App.NewIngredientController = Ember.Controller.extend({
-  actions: {
-    save: function () {
-      var ingredient = this.store.createRecord('ingredient', {
-        item:        this.get('item'),
-        description: this.get('description'),
-        imageURL:    this.get('imageURL'),
-      });
-      ingredient.save();
-      this.transitionToRoute('ingredients');
-    }
-  }
-});
-*/
 App.NewRecipeIndexRoute = App.Route.extend({
     model: function () {
         return this.store.find('ingredient');
