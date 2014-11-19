@@ -9,12 +9,17 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-  <h1 class="title">Recipe Tracker</h1>
-    <p class="nav"> {{link-to "home"     "index"}}</p>
-    <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
-
-    {{outlet}}
-
+    <h1 class="title">Recipe Tracker</h1>
+    {{#if isLoggedIn}}
+      <p class="nav"> {{link-to "home" "index"}}</p>
+      <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
+      <button {{action "logout"}} class='btn btn-primary'>Logout</button>
+    {{else}}
+      {{link-to 'Login' 'login' classNames='btn btn-primary'}}
+    {{/if}}
+    <section>
+      {{outlet}}
+    </section>
   </script>
 
   <script type="text/x-handlebars" id="index">
@@ -66,16 +71,25 @@
   </article>
   </script>
 
+  <script type="text/x-handlebars" id="login">
+    <section>
+    <h4>{{error}}</h4>
+    {{input type='email' value=username placeholder='email'}}
+    {{input type='password' value=password placeholder='password'}}
+    <button {{action 'login'}} class='btn btn-primary'>Login</button>
+    </section>
+  </script>
+
   <script type="text/x-handlebars" id="category">
     {{#link-to 'Clear Filter' 'category' (query-params category='all')}}{{/link-to}}
-    {{#each App.CATEGORIES}}
-      {{#link-to 'category' (query-params category=id)}} Sort by {{item}} {{/link-to}}
-    {{/each}}
-    {{#if filtered.Recipes.length}}
-      <h2>{{filteredRecipes.length}} Recipe{{#if moreThanOne}}s{{/if}} Found</h2>
-    {{else}}
-      <h2>Sorry, No Recipes Found</h2>
-    {{/if}}
+      {{#each App.CATEGORIES}}
+        {{#link-to 'category' (query-params category=id)}} Sort by {{item}} {{/link-to}}
+      {{/each}}
+      {{#if filtered.Recipes.length}}
+        <h2>{{filteredRecipes.length}} Recipe{{#if moreThanOne}}s{{/if}} Found</h2>
+      {{else}}
+        <h2>Sorry, No Recipes Found</h2>
+      {{/if}}
     <ul>
       {{#each filteredRecipes}}
       <li>

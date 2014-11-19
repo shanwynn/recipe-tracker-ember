@@ -22,13 +22,13 @@ h3 {
   font-family: 'Karla', sans-serif;
   color: #930C0A;
   text-align: right;
+  font-size: 1.25em;
 }
 
 h4 {
   font-family: 'Karla', sans-serif;
   font-weight: bold;
   font-style: italic;
-  font-size: 1.25em;
 }
 
 .title {
@@ -43,17 +43,6 @@ h4 {
 
 .description, .category {
   text-align: center;
-}
-
-.edit-link {
-  text-align: right;
-  margin-right: 20px;
-}
-
-.edit-link:hover {
-  color: #726F6D;
-  text-align: right;
-  margin-right: 20px;
 }
 
 p {
@@ -73,16 +62,17 @@ li {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 5px;
-  font-size: 1.5em;
+  font-size: 1.25em;
 
-}
-a:hover {
-  text-decoration: none;
-  color: #FFFAE8;;
 }
 
 a {
   color: #FFFAE8;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #FFFAE8;;
 }
 
 .recipe-name {
@@ -111,31 +101,29 @@ img {
 }
 
 .btn-primary {
-  margin: 10px;
-  margin-left: 50px;
-  padding: 5px;
   background-color: #177446;
   border: #177446;
   color: #fff;
+  font-size: 1.25em;
 }
 
 .btn-primary:hover {
-  margin: 10px;
-  margin-left: 50px;
-  padding: 5px;
   background-color: #13643B;
   border: #13643B;
   color: #fff;
+  font-size: 1.25em;
 }
 
 .btn-danger {
   background-color: #930C0A;
   border: #930C0A;
+  font-size: 1.25em;
 }
 
 .btn-danger:hover {
   background-color: #6E0012;
   border: #930C0A;
+  font-size: 1.25em;
 }
 
 .form-group {
