@@ -147,6 +147,7 @@ App.CategoryController = Ember.ArrayController.extend({
   }.property('category', 'model')
 });
 
+/*
 App.Ingredient = DS.Model.extend({
   item:        DS.attr('string'),
   description: DS.attr('string'),
@@ -174,7 +175,7 @@ App.IngredientController = Ember.ObjectController.extend({
     }
   }
 });
-/*
+
 App.NewIngredientController = Ember.Controller.extend({
   actions: {
     save: function () {

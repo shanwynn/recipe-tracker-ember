@@ -43,7 +43,7 @@
       <img {{bind-attr src=imageURL}} class='centered' />
       <p>{{{markedDescription}}}</p>
       <h4 class="add-form"{{action 'toggleIngredients' on 'click'}}>
-        {{ingredientCount}} Ingredients:<i {{bind-attr class=':glyphicon showItems:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
+        {{ingredientCount}} Ingredients: <i {{bind-attr class=':glyphicon showIngredients:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
       </h4>
       {{#if showIngredients}}
       <ul>
@@ -53,7 +53,7 @@
       </ul>
       {{/if}}
       <h4 class="add-form" {{action 'toggleDirections' on 'click'}}>
-        {{directionCount}} Directions:<i {{bind-attr class=':glyphicon showSteps:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
+        {{directionCount}} Directions: <i {{bind-attr class=':glyphicon showDirections:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
       </h4>
       {{#if showDirections}}
       <ul>
