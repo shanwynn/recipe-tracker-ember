@@ -38,7 +38,9 @@
 
   <script type="text/x-handlebars" id="recipe">
   <article>
-  <h3>{{link-to 'edit' 'edit_recipe' this class='edit-link' classNames='btn btn-primary'}}</h3>
+  {{#if isLoggedIn}}
+    <h3>{{link-to 'edit' 'edit_recipe' this class='edit-link' classNames='btn btn-primary'}}</h3>
+  {{/if}}
     <header>
       <h2>{{name}}</h2>
       <h4 class='category'>{{categoryName}}</h4>
@@ -47,7 +49,7 @@
       <img {{bind-attr src=imageURL}} class='centered' />
       <p class='description'>{{{markedDescription}}}</p>
       <h4 class="add-form"{{action 'toggleIngredients' on 'click'}}>
-        {{ingredientCount}} Ingredients: <i {{bind-attr class=':glyphicon showIngredients:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
+        {{ingredientCount}} Ingredients  <i {{bind-attr class=':glyphicon showIngredients:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
       </h4>
       {{#if showIngredients}}
       <ul>
@@ -57,7 +59,7 @@
       </ul>
       {{/if}}
       <h4 class="add-form" {{action 'toggleDirections' on 'click'}}>
-        {{directionCount}} Directions: <i {{bind-attr class=':glyphicon showDirections:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
+        {{directionCount}} Directions  <i {{bind-attr class=':glyphicon showDirections:glyphicon-chevron-down:glyphicon-chevron-up'}}></i>
       </h4>
       {{#if showDirections}}
       <ul>
@@ -67,7 +69,9 @@
       </ul>
       {{/if}}
     </section>
-    <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
+    {{#if isLoggedIn}}
+      <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
+    {{/if}}
   </article>
   </script>
 

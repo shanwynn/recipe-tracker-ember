@@ -24,7 +24,6 @@ App.ApplicationController = Ember.Controller.extend({
     }
 });
 
-
 App.ApplicationRoute = Ember.Route.extend({
   beforeModel: function(transition) {
     var applicationController = this.controllerFor('application');
@@ -155,6 +154,8 @@ App.RecipeRoute = App.ApplicationRoute.extend({
 });
 
 App.RecipeController = Ember.ObjectController.extend({
+  needs: ['application'],
+  isLoggedIn: Ember.computed.alias ('controllers.application.isLoggedIn'),
   ingredientCount: Ember.computed.alias('splitIngredients.length'),
   directionCount: Ember.computed.alias('splitDirections.length'),
 
