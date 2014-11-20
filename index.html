@@ -13,7 +13,7 @@
     {{#if isLoggedIn}}
       <p class="nav"> {{link-to "home" "index"}}</p>
       <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
-      <button {{action "logout"}} class='btn btn-primary'>Logout</button>
+      <button {{action "logout"}} class='logout-btn' class='btn btn-primary'>Logout</button>
     {{else}}
       {{link-to 'Login' 'login' classNames='btn btn-primary'}}
     {{/if}}
@@ -72,12 +72,14 @@
   </script>
 
   <script type="text/x-handlebars" id="login">
-    <section>
+  <article>
+    <section="login-screen">
     <h4>{{error}}</h4>
-    {{input type='email' value=username placeholder='email'}}
-    {{input type='password' value=password placeholder='password'}}
+    {{input type='email' value=username placeholder='email' class='login-form'}}
+    {{input type='password' value=password placeholder='password' class='login-form'}}
     <button {{action 'login'}} class='btn btn-primary'>Login</button>
     </section>
+  </article>
   </script>
 
   <script type="text/x-handlebars" id="category">

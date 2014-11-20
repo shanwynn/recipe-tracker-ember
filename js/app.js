@@ -109,6 +109,29 @@ App.IndexRoute = App.ApplicationRoute.extend({
   }
 });
 
+App.IndexController = Ember.ArrayController.extend({
+  sortProperties: ['rank', 'name'],
+  sortAscending: true,
+  actions: {
+    sortToggle: function (prop) {
+      if(prop == 'name') {
+        this.set('sortProperties', ['name', 'rank']);
+      }else{
+        this.set('sortProperties', ['rank', 'name']);
+      }
+      this.set('sortAscending', !this.get('sortAscending'));
+    },
+    upvote: function (recipe) {
+      recipe.incrementProperty('rank');
+      recipe.save();
+    },
+    downvote: function (recipe) {
+      recipe.decrementProperty('rank');
+      recipe.save();
+    }
+  }
+});
+
 App.NewRecipeController = Ember.Controller.extend({
   actions: {
     save: function() {

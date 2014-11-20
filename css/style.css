@@ -41,6 +41,11 @@ h4 {
   background-color: rgba(255, 255, 255, 0.85);
 }
 
+.login-form {
+  margin-left: 30px;
+  width: 300px;
+}
+
 .description, .category {
   text-align: center;
 }
@@ -124,6 +129,22 @@ img {
   background-color: #6E0012;
   border: #930C0A;
   font-size: 1.25em;
+}
+
+.logout-btn {
+  float: right;
+  margin-top: -5px;
+  margin-right: 25px;
+  background-color: #4767BF;
+  border: #177446;
+  color: #fff;
+  font-size: 1.25em;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.logout-btn:hover {
+  background-color: #2E2BB1;
 }
 
 .form-group {
