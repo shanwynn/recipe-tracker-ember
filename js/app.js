@@ -85,21 +85,36 @@ App.CATEGORIES = [
   { id: '4', name: 'Dessert'}
 ];
 
+App.RecipeFormComponent = Ember.Component.extend({
+  markedDescription: function () {
+    return marked((this.get('recipe.description')) || '');
+  }.property('recipe.description')
+});
+
 App.Router.map(function() {
-  this.route ('recipe', {path: 'recipes/:id'});
+  this.route ('recipe', {path: 'recipes/:id'}, function () {
+    this.route('new_comment');
+  });
   this.route ('edit_recipe', {path: 'recipes/:id/edit'});
   this.route ('new_recipe', {path: 'recipes/new'});
-  this.route ('category', {path: 'recipes'});
+  this.route ('category', {path: 'categories'});
   this.route ('login', {path: 'login'});
 });
 
 App.Recipe = DS.Model.extend({
   name:        DS.attr('string'),
   description: DS.attr('string'),
+
+  markedDescription: function () {
+    return marked(this.get('description') || '');
+  }.property('description'),
+
   category:    DS.attr('string'),
   imageURL:    DS.attr('string'),
   ingredients: DS.attr('string'),
-  directions:  DS.attr('string')
+  directions:  DS.attr('string'),
+  rank:        DS.attr('number'),
+  comments:    DS.hasMany('comment', {async: true})
 });
 
 App.IndexRoute = App.ApplicationRoute.extend({
@@ -110,7 +125,7 @@ App.IndexRoute = App.ApplicationRoute.extend({
 
 App.IndexController = Ember.ArrayController.extend({
   sortProperties: ['rank', 'name'],
-  sortAscending: true,
+  sortAscending: false,
   actions: {
     sortToggle: function (prop) {
       if(prop == 'name') {
@@ -204,10 +219,6 @@ App.EditRecipeRoute = App.AuthenticatedRoute.extend({
 });
 
 App.EditRecipeController = Ember.ObjectController.extend({
-  markedDescription: function () {
-    return marked(this.get('description') || '');
-  }.property('description'),
-
   actions: {
     update: function () {
       this.model.save();
@@ -246,4 +257,39 @@ App.NewRecipeIndexRoute = App.AuthenticatedRoute.extend({
     model: function () {
         return this.store.find('ingredient');
     }
+});
+
+App.Comment = DS.Model.extend({
+  name: DS.attr('string'),
+  date: DS.attr('string'),
+  text: DS.attr('string'),
+  markedText: function () {
+    return marked(this.get('text') || '');
+  }.property('text'),
+  recipe: DS.belongsTo('recipe', {async: true})
+});
+
+App.RecipeNewCommentController = Ember.ObjectController.extend({
+  markedText: function () {
+    return marked(this.get('text') || '');
+  }.property('text'),
+
+  needs: ['recipe'],
+  actions: {
+    save: function () {
+      if (!this.get('text')) { return;}
+      var comment = this.store.createRecord('comment', {
+        name: this.get('name'),
+        date: (new Date()).toDateString(),
+        text: this.get('text')
+      });
+      comment.save();
+
+      var recipe = this.get('controllers.recipe.model');
+      recipe.get('comments').pushObject(comment);
+      recipe.save();
+
+      this.transitionToRoute('recipe', recipe.id);
+    }
+  }
 });

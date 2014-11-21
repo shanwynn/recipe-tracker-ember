@@ -23,20 +23,28 @@
   </script>
 
   <script type="text/x-handlebars" id="index">
+  <p><a {{action 'sortToggle' 'title'}} class='nav-alpha'>Toggle Alphabetical Sort</a></p>
+  <p><a {{action 'sortToggle' 'rank'}} class='nav-rank'>Toggle Rank Sort</a></p>
   <ul>
     {{#each}}
-    <div class="recipe-name">
+    <li class="vote">
       <article>
         <header>
-          {{#link-to 'recipe' this tagName='h2'}} {{name}} {{/link-to}}
+          <h2>
+        <div class="recipe-name">
+        {{#link-to 'recipe' this tagName='h2'}} {{rank}} {{name}} {{/link-to}}
+          <i class='glyphicon glyphicon-chevron-up' {{action "upvote" this}} ></i>
+          <i class='glyphicon glyphicon-chevron-down' {{action "downvote" this}} ></i>
+        </div>
+          </h2>
         </header>
       </article>
-    </div>
     {{/each}}
   </ul>
   </script>
 
-  <script type="text/x-handlebars" id="recipe">
+  <script type="text/x-handlebars" id="components/recipe-detail">
+  {{#with recipe}}
   <article>
   {{#if isLoggedIn}}
     <h3>{{link-to 'edit' 'edit_recipe' this class='edit-link' classNames='btn btn-primary'}}</h3>
@@ -72,6 +80,39 @@
     {{#if isLoggedIn}}
       <button {{action 'destroy'}} class='btn btn-danger'>Delete Recipe</button>
     {{/if}}
+    <section>
+    <h2>Comments ({{comments.length}})</h2>
+      {{#each comments}}
+        <article style='border-bottom: 1px solid black'>
+          <p>{{date}}</p>
+          {{{markedText}}} -- {{name}}
+        </article>
+      {{/each}}
+      {{outlet}}
+      <hr>
+      {{link-to "New Comment" "recipe.new_comment" this.id class='btn btn-primary'}}
+    </section>
+  </article>
+  {{/with}}
+  </script>
+
+  <script type="text/x-handlebars" id="recipe">
+  {{recipe-detail recipe=this}}
+  </script>
+
+  <script type="text/x-handlebars" id="recipe/new_comment">
+  <h4>New Comment</h4>
+  <div class='preview'>
+  {{{markedText}}} - {{name}}
+  </div>
+  <article>
+    <form>
+      <div class='form-group'>
+        <label for='text'>Feedback:</label>
+        {{textarea value=text id='text' class='form-control' rows='5'}}
+      </div>
+      <button class='btn btn-primary' {{action 'save'}}>Add Comment</button>
+    </form>
   </article>
   </script>
 
@@ -87,10 +128,14 @@
   </script>
 
   <script type="text/x-handlebars" id="category">
-    {{#link-to 'Clear Filter' 'category' (query-params category='all')}}{{/link-to}}
+  <nav>
+    <ul>
+      <li>{{link-to 'Show All' 'category' (query-params category='all')}}</li>
       {{#each App.CATEGORIES}}
-        {{#link-to 'category' (query-params category=id)}} Sort by {{item}} {{/link-to}}
+        <li>{{#link-to 'category' (query-params category=id)}} Show Only {{item}} {{/link-to}}</li>
       {{/each}}
+    </ul>
+  </nav>
       {{#if filtered.Recipes.length}}
         <h2>{{filteredRecipes.length}} Recipe{{#if moreThanOne}}s{{/if}} Found</h2>
       {{else}}
@@ -109,7 +154,8 @@
     </ul>
     </script>
 
-  <script type="text/x-handlebars" id="new_recipe">
+  <script type="text/x-handlebars" id="components/recipe-form">
+  {{#with recipe}}
   <article>
   <form role="form">
      <div class="form-group">
@@ -136,40 +182,24 @@
     <label for='directions'>Directions:</label>
        {{input type='text' value=directions id='directions' class='form-control'}}
     </div>
-  <button {{action "save"}} class='btn btn-primary'>Submit New Recipe</button>
+    {{yield}}
   </form>
   </article>
+  <h2>{{name}}</h2>
+  {{/with}}
+  {{{markedDescription}}}
   </script>
 
+  <script type="text/x-handlebars" id="new_recipe">
+  {{#recipe-form recipe=this}}
+  <button {{action "save"}} class='btn btn-primary'>Submit New Recipe</button>
+  {{/recipe-form}}
+  </script>
   <script type="text/x-handlebars" id="edit_recipe">
   <article>
-  <form role="form">
-    <div class="form-group">
-       <label for='name'>Name:</label>
-       {{input type='text' value=name id='name' class='form-control'}}
-    </div>
-    <div class="form-group">
-        <label for='description'>Description</label>
-        {{input type='text' value=description id='description' class='form-control'}}
-    </div>
-    <div class="form-group">
-        <label for='category'>Category</label>
-        {{view "select" value=category content=App.CATEGORIES optionValuePath="content.id" optionLabelPath="content.name" classNames='form-control'}}
-    </div>
-    <div class ="form-group">
-       <label for='imageURL'>Image (URL):</label>
-       {{input type='text' value=imageURL id='imageURL' class='form-control'}}
-    </div>
-    <div class ="form-group">
-      <label for='ingredients'>Ingredients:</label>
-      {{input type='text' value=ingredients id='ingredients' class='form-control'}}
-    </div>
-    <div class ="form-group">
-    <label for='directions'>Directions:</label>
-      {{input type='text' value=directions id='directions' class='form-control'}}
-    </div>
-  <button {{action "update"}} class='btn btn-primary'>Update Recipe</button>
-  </form>
+  {{#recipe-form recipe=this}}
+  <button {{action 'update'}} class='btn btn-primary'>Update Recipe</button>
+  {{/recipe-form}}
   </article>
   </script>
   <footer>
