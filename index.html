@@ -185,9 +185,7 @@
     {{yield}}
   </form>
   </article>
-  <h2>{{name}}</h2>
   {{/with}}
-  {{{markedDescription}}}
   </script>
 
   <script type="text/x-handlebars" id="new_recipe">
@@ -196,11 +194,11 @@
   {{/recipe-form}}
   </script>
   <script type="text/x-handlebars" id="edit_recipe">
-  <article>
+
   {{#recipe-form recipe=this}}
   <button {{action 'update'}} class='btn btn-primary'>Update Recipe</button>
   {{/recipe-form}}
-  </article>
+  
   </script>
   <footer>
     <p>Recipe Tracker | &copy;2014</p>
