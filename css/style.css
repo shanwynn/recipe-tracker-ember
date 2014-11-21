@@ -8,6 +8,7 @@
 
 h1 {
   font-family: 'Karla', sans-serif;
+  font-size: 3em;
   font-weight: bold;
   text-align: center;
 }
@@ -41,6 +42,7 @@ h4 {
   border: solid 2px #000;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
 }
 
 .login-form {
@@ -87,7 +89,7 @@ li {
   float: left;
   background-color: rgba(0, 0, 0, .5);
   border-radius: 6px;
-  margin-top: 50px;
+  margin-top: 40px;
   margin-left: -175px;
   padding: 5px;
   font-size: 1.25em;
@@ -184,7 +186,7 @@ img {
   margin-left: -40px;
 }
 
-.recipe-name article header h2 {
+.recipe-name {
   cursor: pointer;
 }
 footer {

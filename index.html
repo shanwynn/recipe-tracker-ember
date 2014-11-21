@@ -9,7 +9,7 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-    <h1 class="title">Recipe Tracker</h1>
+    {{link-to "Recipe Tracker" "index" tagName='h1' classNames='title'}}
     {{#if isLoggedIn}}
       <p class="nav"> {{link-to "home" "index"}}</p>
       <p class="nav"> {{link-to '+ new recipe' 'new_recipe'}}</p>
